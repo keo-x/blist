@@ -1,26 +1,42 @@
 import {Injectable} from '@nestjs/common'
-import {CreateUserInput} from './dto/create-user.input'
+import {InjectRepository} from '@nestjs/typeorm'
+import {isNil} from 'rambda'
+import {Repository} from 'typeorm'
 import {UpdateUserInput} from './dto/update-user.input'
+import {User} from './entities/user.entity'
 
 @Injectable()
 export class UsersService {
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user'
+  constructor(
+    @InjectRepository(User) private readonly usersRepository: Repository<User>
+  ) {}
+
+  async findAll(): Promise<User[] | null> {
+    return await this.usersRepository.find()
   }
 
-  findAll() {
-    return `This action returns all users`
+  async findOne({uuid}: {uuid: string}): Promise<User | null> {
+    return await this.usersRepository.findOneBy({
+      uuid,
+    })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`
-  }
+  async update({
+    uuid,
+    updateUserInput,
+  }: {
+    uuid: string
+    updateUserInput: UpdateUserInput
+  }) {
+    const user = await this.findOne({uuid})
+    if (isNil(user)) {
+      return null
+    }
+    const updatedUser = {
+      ...user,
+      updateUserInput,
+    }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`
+    return this.usersRepository.save(updatedUser)
   }
 }

@@ -1,18 +1,25 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { UsersService } from './users.service';
-import { User } from './entities/user.entity';
+import {Args, Int, Query, Resolver, ResolveField, Root} from '@nestjs/graphql'
+import {UsersService} from './users.service'
+import {AuthUser} from './entities/user.object'
+import {User} from './entities/user.entity'
+import {isNil} from 'rambda'
 
-@Resolver(() => User)
+@Resolver(() => AuthUser)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query(() => [User], {name: 'users'})
+  @Query(() => [AuthUser], {name: 'users'})
   findAll() {
     return this.usersService.findAll()
   }
 
-  @Query(() => User, {name: 'user'})
-  findOne(@Args('id', {type: () => Int}) id: number) {
-    return this.usersService.findOne(id)
+  @Query(() => AuthUser, {name: 'user'})
+  findOne(@Args('uuid', {type: () => String}) uuid: string) {
+    return this.usersService.findOne({uuid})
+  }
+
+  @ResolveField(() => Boolean)
+  isOnboarded(@Root() user: User): boolean {
+    return isNil(user.onboardedAt)
   }
 }
