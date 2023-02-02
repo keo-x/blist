@@ -15,7 +15,7 @@ export class UsersResolver {
 
   @Query(() => AuthUser, {name: 'user'})
   findOne(@Args('uuid', {type: () => String}) uuid: string) {
-    return this.usersService.findOne({uuid})
+    return this.usersService.findById({uuid})
   }
 
   @ResolveField(() => Boolean)

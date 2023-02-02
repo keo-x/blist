@@ -15,9 +15,15 @@ export class UsersService {
     return await this.usersRepository.find()
   }
 
-  async findOne({uuid}: {uuid: string}): Promise<User | null> {
+  async findById({uuid}: {uuid: string}): Promise<User | null> {
     return await this.usersRepository.findOneBy({
       uuid,
+    })
+  }
+
+  async findByEmail({email}: {email: string}): Promise<User | null> {
+    return await this.usersRepository.findOneBy({
+      email,
     })
   }
 
@@ -28,7 +34,7 @@ export class UsersService {
     uuid: string
     updateUserInput: UpdateUserInput
   }) {
-    const user = await this.findOne({uuid})
+    const user = await this.findById({uuid})
     if (isNil(user)) {
       return null
     }
