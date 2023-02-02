@@ -1,8 +1,11 @@
+import {ConfigService} from '@nestjs/config'
 import {TypeOrmModuleOptions, TypeOrmOptionsFactory} from '@nestjs/typeorm'
 import {SnakeNamingStrategy} from 'typeorm-naming-strategies'
 import {getNodeEnv, NodeEnv} from '../constants/NodeEnv'
 
 export class DatabaseConfiguration implements TypeOrmOptionsFactory {
+  constructor(private readonly configService: ConfigService) {}
+
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     const defaultPort = 5432
     const env = getNodeEnv()

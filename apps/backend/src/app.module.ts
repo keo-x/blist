@@ -17,7 +17,6 @@ import {UsersModule} from './users/users.module'
       useClass: GraphQLConfiguration,
     }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
       useClass: DatabaseConfiguration,
     }),
     UsersModule,
