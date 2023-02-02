@@ -9,6 +9,7 @@ import {GraphQLConfiguration} from './config/graphql.config'
 import {MailerConfiguration} from './config/mailer.config'
 
 import {UsersModule} from './users/users.module'
+import {AuthModule} from './auth/auth.module'
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import {UsersModule} from './users/users.module'
       useClass: MailerConfiguration,
     }),
     UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
