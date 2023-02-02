@@ -3,8 +3,11 @@ import {Module} from '@nestjs/common'
 import {ConfigModule} from '@nestjs/config'
 import {GraphQLModule} from '@nestjs/graphql'
 import {TypeOrmModule} from '@nestjs/typeorm'
+import {MailerModule} from '@nestjs-modules/mailer'
 import {DatabaseConfiguration} from './config/database.config'
 import {GraphQLConfiguration} from './config/graphql.config'
+import {MailerConfiguration} from './config/mailer.config'
+
 import {UsersModule} from './users/users.module'
 
 @Module({
@@ -18,6 +21,9 @@ import {UsersModule} from './users/users.module'
     }),
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConfiguration,
+    }),
+    MailerModule.forRootAsync({
+      useClass: MailerConfiguration,
     }),
     UsersModule,
   ],

@@ -9,6 +9,7 @@
   "private": true,
   "dependencies": {
     "@apollo/server": "^4.3.2",
+    "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/apollo": "^10.1.7",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.0",
@@ -21,6 +22,7 @@
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "graphql": "^16.6.0",
+    "nodemailer": "^6.9.1",
     "pg": "^8.9.0",
     "rambda": "^7.4.0",
     "reflect-metadata": "^0.1.13",
@@ -41,6 +43,7 @@
     "@nrwl/workspace": "15.6.3",
     "@types/jest": "28.1.1",
     "@types/node": "18.7.1",
+    "@types/nodemailer": "^6.4.7",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.36.1",
     "@typescript-eslint/utils": "^5.50.0",
