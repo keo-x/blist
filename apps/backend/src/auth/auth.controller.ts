@@ -3,6 +3,7 @@ import {UserService} from '../users/users.service'
 import {Request, Response} from 'express'
 import {isNil} from 'rambda'
 import {MagicLinkStrategy} from './strategies/magic-link.strategy'
+import {Public} from '../common/decorators/'
 
 @Controller('auth')
 export class AuthController {
@@ -11,6 +12,7 @@ export class AuthController {
     private readonly magicLinkStrategy: MagicLinkStrategy
   ) {}
 
+  @Public()
   @Post('send-link')
   async sendLink(@Req() req: Request, @Res() res: Response) {
     const email = req.body.destination as string | undefined

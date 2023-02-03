@@ -10,6 +10,8 @@ import {MailerConfiguration} from './config/mailer.config'
 
 import {UsersModule} from './users/users.module'
 import {AuthModule} from './auth/auth.module'
+import {APP_GUARD} from '@nestjs/core'
+import {JwTAuthGuard} from './common/guards/'
 
 @Module({
   imports: [
@@ -28,6 +30,13 @@ import {AuthModule} from './auth/auth.module'
     }),
     UsersModule,
     AuthModule,
+  ],
+
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwTAuthGuard,
+    },
   ],
 })
 export class AppModule {}

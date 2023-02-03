@@ -9,9 +9,8 @@ import {
   Resolver,
 } from '@nestjs/graphql'
 import {isNil} from 'rambda'
-import {CurrentUser} from '../common/decorators/current-user'
-import {MagicLinkGuard} from '../common/guards'
-import {JwTGuard} from '../common/guards/jwt.guard'
+import {CurrentUser} from '../common/decorators/'
+import {JwTAuthGuard, MagicLinkGuard} from '../common/guards'
 import {GraphQLContext} from '../types'
 import {User} from '../users/entities/user.entity'
 import {AuthUser} from '../users/entities/user.object'
@@ -45,13 +44,18 @@ export class AuthResolver {
       ctx.req.user as User
     )
 
+    // TODO extract and add the necessarry security setting
+    ctx.res.cookie('racc', refreshToken, {
+      httpOnly: true,
+    })
+
     return {
       accessToken,
     }
   }
 
   @Query(() => AuthUser)
-  @UseGuards(JwTGuard)
+  @UseGuards(JwTAuthGuard)
   me(@CurrentUser() user: AuthUser) {
     return this.userService.findById({uuid: user.uuid})
   }
