@@ -6,7 +6,7 @@ import {UpdateUserInput} from './dto/update-user.input'
 import {User} from './entities/user.entity'
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>
   ) {}

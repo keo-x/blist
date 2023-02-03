@@ -1,5 +1,5 @@
 import {BadRequestException, Controller, Post, Req, Res} from '@nestjs/common'
-import {UsersService} from '../users/users.service'
+import {UserService} from '../users/users.service'
 import {Request, Response} from 'express'
 import {isNil} from 'rambda'
 import {MagicLinkStrategy} from './strategies/magic-link.strategy'
@@ -7,7 +7,7 @@ import {MagicLinkStrategy} from './strategies/magic-link.strategy'
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
     private readonly magicLinkStrategy: MagicLinkStrategy
   ) {}
 

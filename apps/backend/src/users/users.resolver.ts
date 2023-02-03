@@ -1,12 +1,12 @@
 import {Args, Int, Query, Resolver, ResolveField, Root} from '@nestjs/graphql'
-import {UsersService} from './users.service'
+import {UserService} from './users.service'
 import {AuthUser} from './entities/user.object'
 import {User} from './entities/user.entity'
 import {isNil} from 'rambda'
 
 @Resolver(() => AuthUser)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UserService) {}
 
   @Query(() => [AuthUser], {name: 'users'})
   findAll() {

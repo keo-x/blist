@@ -1,9 +1,10 @@
-import {Injectable} from '@nestjs/common'
+import {Injectable, UnauthorizedException} from '@nestjs/common'
 import {ConfigService} from '@nestjs/config'
 import {PassportStrategy} from '@nestjs/passport'
 import MagicLoginStrategy from 'passport-magic-login'
 import {MailerService} from '@nestjs-modules/mailer'
-import {UsersService} from '../../users/users.service'
+import {UserService} from '../../users/users.service'
+import {isNil} from 'rambda'
 
 export const MAGIC_LINK_STRATEGY_NAME = 'magic-link'
 
@@ -15,7 +16,7 @@ export class MagicLinkStrategy extends PassportStrategy(
   constructor(
     private readonly config: ConfigService,
     private readonly mailService: MailerService,
-    private readonly userService: UsersService
+    private readonly userService: UserService
   ) {
     super({
       secret: config.get('MAGIC_LINK_SECRET'),
@@ -33,6 +34,14 @@ export class MagicLinkStrategy extends PassportStrategy(
           subject: `Your login link`,
           text: `Hey! Click on this link to finish logging in: ${link}\nMake sure the verification code matches ${verificationCode}!`,
         })
+      },
+      // @ts-expect-error unable to type the verify method correctly
+      verify: async (payload, done) => {
+        const user = await userService.findByEmail(payload.destination)
+        if (isNil(user)) {
+          done(new UnauthorizedException())
+        }
+        done(null, user)
       },
     })
   }

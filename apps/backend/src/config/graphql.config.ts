@@ -16,6 +16,7 @@ export class GraphQLConfiguration implements GqlOptionsFactory {
       debug: !isProduction,
       playground: !isProduction,
       nodeEnv,
+      context: ({req, res}) => ({req, res}),
     }
   }
 }
