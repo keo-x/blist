@@ -11,6 +11,7 @@ import {UsersModule} from './users/users.module'
 import {AuthModule} from './auth/auth.module'
 import {APP_GUARD} from '@nestjs/core'
 import {JwTAuthGuard} from './common/guards/'
+import {EventManagerModule} from './event-manager/event-manager.module'
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import {JwTAuthGuard} from './common/guards/'
     }),
     UsersModule,
     AuthModule,
+    EventManagerModule,
   ],
 
   providers: [
