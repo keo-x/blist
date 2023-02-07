@@ -9,8 +9,8 @@ export abstract class MockModel<T> {
     return {...this.entityStub, ...value}
   }
 
-  async save(value: T): Promise<T> {
-    return value
+  async save(entity: T): Promise<T> {
+    return entity
   }
 
   async findOneBy(): Promise<T> {
