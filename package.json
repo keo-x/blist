@@ -5,6 +5,7 @@
   "scripts": {
     "pre-commit": "lint-staged",
     "prepare": "husky install",
+    "test": "jest",
     "typeorm": "pnpm typeorm-ts-node-commonjs",
     "migration:generate": "pnpm run typeorm -d apps/backend/src/config/migration.config.ts migration:generate apps/backend/src/database/migrations/$npm_config_name",
     "migration:create": "pnpm run typeorm migration:create apps/backend/src/database/migrations/$npm_config_name",

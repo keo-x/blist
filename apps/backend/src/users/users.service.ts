@@ -40,7 +40,7 @@ export class UserService {
     }
     const updatedUser = {
       ...user,
-      updateUserInput,
+      ...updateUserInput,
     }
 
     return this.usersRepository.save(updatedUser)
