@@ -1,15 +1,25 @@
 import {Test, TestingModule} from '@nestjs/testing'
 import {getRepositoryToken} from '@nestjs/typeorm'
 import {Repository} from 'typeorm'
+import {User, UserRole} from '../../users/entities/user.entity'
+import {ADMIN_UUID_STUBS, userStub} from '../../users/test/subs/user.stub'
+import {UserService} from '../../users/users.service'
 import {Event} from '../entities/event.entity'
 import {EventManagerService} from '../event-manager.service'
 import {eventStub} from './stubs/event.stub'
 
-const stub = eventStub()
 const EVENT_REPOSITORY_TOKEN = getRepositoryToken(Event)
 const repositoryObject = {
   create: jest.fn((stub) => stub),
-  save: jest.fn(({date, name}) => stub),
+  save: jest.fn((stub) => stub),
+}
+
+const userServiceMock = {
+  findByIdOrFail: jest.fn(({uuid}: {uuid: string}) =>
+    userStub({
+      uuid,
+    })
+  ),
 }
 
 describe('EventManagerService', () => {
@@ -20,12 +30,16 @@ describe('EventManagerService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         EventManagerService,
+        UserService,
         {
           provide: EVENT_REPOSITORY_TOKEN,
           useValue: repositoryObject,
         },
       ],
-    }).compile()
+    })
+      .overrideProvider(UserService)
+      .useValue(userServiceMock)
+      .compile()
 
     service = module.get<EventManagerService>(EventManagerService)
     eventRepository = module.get<Repository<Event>>(EVENT_REPOSITORY_TOKEN)
@@ -40,10 +54,26 @@ describe('EventManagerService', () => {
   })
 
   describe('#createEvent', () => {
+    const initialStub = eventStub()
+
     it('should create event with the given name and date', async () => {
-      const {date, name} = eventStub()
-      await service.createEvent({event: {date, name}})
-      expect(eventRepository.save).toHaveBeenCalledWith({date, name})
+      await service.createEvent({event: initialStub, userId: ADMIN_UUID_STUBS})
+      expect(eventRepository.save).toHaveBeenCalledWith(initialStub)
+    })
+
+    it('should thow and error if event creator is not and admin or an organizer', async () => {
+      expect(
+        service.createEvent({
+          event: {date: initialStub.date, name: initialStub.name},
+          userId: '123',
+        })
+      ).rejects.toThrow(new Error('Unauthorized user'))
+    })
+
+    it('should create event if the person who created it is an organizer or an admin', async () => {
+      expect(
+        service.createEvent({event: initialStub, userId: ADMIN_UUID_STUBS})
+      ).resolves.toStrictEqual(initialStub)
     })
   })
 })

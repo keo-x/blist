@@ -21,6 +21,12 @@ export class UserService {
     })
   }
 
+  async findByIdOrFail({uuid}: {uuid: string}): Promise<User> {
+    return await this.usersRepository.findOneByOrFail({
+      uuid,
+    })
+  }
+
   async findByEmail({email}: {email: string}): Promise<User | null> {
     return await this.usersRepository.findOneBy({
       email,

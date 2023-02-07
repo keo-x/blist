@@ -13,6 +13,8 @@ export enum UserRole {
   PROMOTER = 'PROMOTER',
 }
 
+export const EVENT_ORGANIZER_ROLES = [UserRole.ADMIN, UserRole.ORGANIZER]
+
 @Entity({name: 'users'})
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -32,7 +34,7 @@ export class User {
     enum: UserRole,
     default: UserRole.PROMOTER,
   })
-  role?: UserRole
+  role!: UserRole
 
   @Column('varchar', {nullable: true})
   lastName?: string

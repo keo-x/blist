@@ -6,5 +6,5 @@ import {userStub} from '../subs/user.stub'
 export const USER_REPOSITORY_TOKEN = getRepositoryToken(User)
 
 export class UserModel extends MockModel<User> {
-  protected entityStub = userStub()
+  protected entityStub = userStub({})
 }
