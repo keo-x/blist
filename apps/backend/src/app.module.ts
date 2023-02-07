@@ -1,10 +1,9 @@
 import {ApolloDriver, ApolloDriverConfig} from '@nestjs/apollo'
 import {Module} from '@nestjs/common'
-import {ConfigModule} from '@nestjs/config'
+import {ConfigModule, ConfigService} from '@nestjs/config'
 import {GraphQLModule} from '@nestjs/graphql'
 import {TypeOrmModule} from '@nestjs/typeorm'
 import {MailerModule} from '@nestjs-modules/mailer'
-import {DatabaseConfiguration} from './config/database.config'
 import {GraphQLConfiguration} from './config/graphql.config'
 import {MailerConfiguration} from './config/mailer.config'
 
@@ -23,7 +22,10 @@ import {JwTAuthGuard} from './common/guards/'
       useClass: GraphQLConfiguration,
     }),
     TypeOrmModule.forRootAsync({
-      useClass: DatabaseConfiguration,
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        ...configService.get('database'),
+      }),
     }),
     MailerModule.forRootAsync({
       useClass: MailerConfiguration,

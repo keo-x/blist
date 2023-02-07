@@ -4,7 +4,11 @@
   "license": "MIT",
   "scripts": {
     "pre-commit": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "typeorm": "pnpm typeorm-ts-node-commonjs",
+    "migration:generate": "pnpm run typeorm -d apps/backend/src/config/migration.config.ts migration:generate apps/backend/src/database/migrations/$npm_config_name",
+    "migration:create": "pnpm run typeorm migration:create apps/backend/src/database/migrations/$npm_config_name",
+    "migration:migrate": "pnpm run typeorm -d apps/backend/src/config/migration.config.ts migration:run"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +27,7 @@
     "axios": "^1.0.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "graphql": "^16.6.0",
     "graphql-scalars": "^1.20.1",
