@@ -6,6 +6,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  ORGANIZER = 'ORGANIZER',
+  MANAGER = 'MANAGER',
+  PROMOTER = 'PROMOTER',
+}
+
 @Entity({name: 'users'})
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -19,6 +26,13 @@ export class User {
 
   @Column('varchar', {nullable: true})
   fristName?: string
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.PROMOTER,
+  })
+  role?: UserRole
 
   @Column('varchar', {nullable: true})
   lastName?: string
