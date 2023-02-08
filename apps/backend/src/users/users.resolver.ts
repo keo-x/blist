@@ -1,4 +1,4 @@
-import {Args, Int, Query, Resolver, ResolveField, Root} from '@nestjs/graphql'
+import {Args, Query, Resolver, ResolveField, Root} from '@nestjs/graphql'
 import {UserService} from './users.service'
 import {AuthUser} from './entities/user.object'
 import {User} from './entities/user.entity'
