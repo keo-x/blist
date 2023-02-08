@@ -1,7 +1,6 @@
 import {Test, TestingModule} from '@nestjs/testing'
 import {getRepositoryToken} from '@nestjs/typeorm'
 import {Repository} from 'typeorm'
-import {User, UserRole} from '../../users/entities/user.entity'
 import {ADMIN_UUID_STUBS, userStub} from '../../users/test/subs/user.stub'
 import {UserService} from '../../users/users.service'
 import {Event} from '../entities/event.entity'
@@ -100,6 +99,39 @@ describe('EventManagerService', () => {
       })
 
       expect(guestRepository.save).toHaveBeenCalled()
+    })
+
+    it('should return the created guest', () => {
+      expect(
+        service.addGuestToEvent({
+          eventUuid: event.uuid,
+          guest: {
+            firstName: 'Billie',
+            lastName: 'The kid',
+          },
+          promoterUuid: userStub({}).uuid,
+        })
+      ).resolves.toEqual(
+        expect.objectContaining({
+          firstName: 'Billie',
+          lastName: 'The kid',
+          promoterUuid: userStub({}).uuid,
+          eventUuid: event.uuid,
+        })
+      )
+    })
+
+    it('should not be possible for an admin to promote an event', () => {
+      expect(
+        service.addGuestToEvent({
+          eventUuid: event.uuid,
+          guest: {
+            firstName: 'Billie',
+            lastName: 'The kid',
+          },
+          promoterUuid: userStub({uuid: ADMIN_UUID_STUBS}).uuid,
+        })
+      ).rejects.toThrowError()
     })
   })
 })

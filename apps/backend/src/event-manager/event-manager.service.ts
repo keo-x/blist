@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common'
 import {InjectRepository} from '@nestjs/typeorm'
 import {Repository} from 'typeorm'
-import {EVENT_ORGANIZER_ROLES} from '../users/entities/user.entity'
+import {EVENT_ORGANIZER_ROLES, UserRole} from '../users/entities/user.entity'
 import {UserService} from '../users/users.service'
 import {AddGuestInput} from './dto'
 import {CreateEventInput} from './dto/create-event.input'
@@ -25,11 +25,11 @@ export class EventManagerService {
     event: CreateEventInput
     userId: string
   }): Promise<Event> {
-    const user = this.userService.findByIdOrFail({
+    const user = await this.userService.findByIdOrFail({
       uuid: userId,
     })
 
-    if (!EVENT_ORGANIZER_ROLES.includes((await user).role)) {
+    if (!EVENT_ORGANIZER_ROLES.includes(user.role)) {
       throw new Error('Unauthorized user')
     }
 
@@ -41,7 +41,7 @@ export class EventManagerService {
     return this.eventRepository.save(newEvent)
   }
 
-  addGuestToEvent({
+  async addGuestToEvent({
     guest,
     eventUuid,
     promoterUuid,
@@ -52,6 +52,14 @@ export class EventManagerService {
     promoterUuid: string
     createdByUuid?: string
   }) {
+    const promoter = await this.userService.findByIdOrFail({
+      uuid: promoterUuid,
+    })
+
+    if (promoter.role !== UserRole.PROMOTER) {
+      throw new Error('Guest can only be invited by event promoters')
+    }
+
     const newGuest = this.guestRepository.create({
       ...guest,
       eventUuid,
