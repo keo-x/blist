@@ -13,6 +13,8 @@ import {APP_GUARD} from '@nestjs/core'
 import {JwTAuthGuard} from './common/guards/'
 import {EventManagerModule} from './event-manager/event-manager.module'
 import databaseConfig from './config/database.config'
+import {DataSourceOptions} from 'typeorm'
+import {join} from 'path'
 
 @Module({
   imports: [
@@ -27,8 +29,12 @@ import databaseConfig from './config/database.config'
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
+        const typeormConfig =
+          configService.getOrThrow<DataSourceOptions>('database')
+
         return {
-          ...configService.getOrThrow<TypeOrmModuleAsyncOptions>('database'),
+          ...typeormConfig,
+          entities: [join(__dirname, '../**/**.entity.{js,ts}')],
           autoLoadEntities: true,
         }
       },
