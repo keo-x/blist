@@ -1,5 +1,7 @@
 import {Injectable} from '@nestjs/common'
 import {InjectRepository} from '@nestjs/typeorm'
+import dayjs from 'dayjs'
+import {isNil} from 'rambda'
 import {Repository} from 'typeorm'
 import {EVENT_ORGANIZER_ROLES, UserRole} from '../users/entities/user.entity'
 import {UserService} from '../users/users.service'
@@ -17,6 +19,29 @@ export class EventManagerService {
     private readonly guestRepository: Repository<Guest>,
     private readonly userService: UserService
   ) {}
+
+  async getAllEvents({
+    filter,
+  }: {
+    filter: {
+      withGuests: boolean
+    }
+  }) {
+    return this.eventRepository.find({
+      order: {
+        date: 'DESC',
+      },
+      relations: {
+        guests: filter?.withGuests,
+      },
+    })
+  }
+
+  async findEventById({uuid}: {uuid: string}) {
+    return this.eventRepository.findOneBy({
+      uuid,
+    })
+  }
 
   async createEvent({
     event,
@@ -68,5 +93,16 @@ export class EventManagerService {
     })
 
     return this.guestRepository.save(newGuest)
+  }
+
+  async toggleGuestArrivalState({guestUuid}: {guestUuid: string}) {
+    const guest = await this.guestRepository.findOneByOrFail({uuid: guestUuid})
+
+    const arrivedAt = isNil(guest.arrivedAt) ? dayjs() : undefined
+    this.guestRepository.update(guestUuid, {
+      arrivedAt,
+    })
+
+    return this.guestRepository.findOneByOrFail({uuid: guestUuid})
   }
 }

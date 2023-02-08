@@ -11,6 +11,7 @@ import {EventManagerService} from './event-manager.service'
 export class EventManagerResolver {
   constructor(private readonly eventManagerService: EventManagerService) {}
 
+  // TODO add admin guard
   @Mutation(() => EventObjectType)
   async createEvent(
     @Args({name: 'event', type: () => CreateEventInput})
@@ -37,5 +38,13 @@ export class EventManagerResolver {
       promoterUuid: currentUser.uuid,
       createdByUuid: currentUser.uuid,
     })
+  }
+
+  // TODO add admin guard
+  @Mutation(() => GuestObjectType)
+  async toggleGuestArrivalState(
+    @Args('guestUuid', {type: () => String}) guestUuid: string
+  ) {
+    return this.eventManagerService.toggleGuestArrivalState({guestUuid})
   }
 }
