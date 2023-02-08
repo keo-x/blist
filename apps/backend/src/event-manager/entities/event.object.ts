@@ -1,5 +1,6 @@
 import {Field, ID, ObjectType} from '@nestjs/graphql'
 import {AuthUser} from '../../users/entities/user.object'
+import {GuestObjectType} from './guest.object'
 
 @ObjectType()
 export class EventObjectType {
@@ -14,4 +15,7 @@ export class EventObjectType {
 
   @Field(() => AuthUser)
   createdBy!: AuthUser
+
+  @Field(() => [GuestObjectType], {nullable: true})
+  guests?: GuestObjectType[]
 }

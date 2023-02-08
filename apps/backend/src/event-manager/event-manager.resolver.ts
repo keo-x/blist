@@ -1,11 +1,11 @@
-import {Args, Resolver, Query, Mutation} from '@nestjs/graphql'
+import {Args, Resolver, Mutation} from '@nestjs/graphql'
 import {CurrentUser} from '../common/decorators'
 import {AuthUser} from '../users/entities/user.object'
 import {CreateEventInput} from './dto/create-event.input'
 import {EventObjectType} from './entities/event.object'
 import {EventManagerService} from './event-manager.service'
 
-@Resolver()
+@Resolver(() => EventObjectType)
 export class EventManagerResolver {
   constructor(private readonly eventManagerService: EventManagerService) {}
 
