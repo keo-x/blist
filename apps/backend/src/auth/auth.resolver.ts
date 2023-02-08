@@ -9,7 +9,7 @@ import {
   Resolver,
 } from '@nestjs/graphql'
 import {isNil} from 'rambda'
-import {CurrentUser} from '../common/decorators/'
+import {CurrentUser, Public} from '../common/decorators/'
 import {JwTAuthGuard, MagicLinkGuard} from '../common/guards'
 import {GraphQLContext} from '../types'
 import {User} from '../users/entities/user.entity'
@@ -30,6 +30,7 @@ export class AuthResolver {
     private readonly authService: AuthService
   ) {}
 
+  @Public()
   @Mutation(() => LoginResponse)
   @UseGuards(MagicLinkGuard)
   login(
