@@ -21,15 +21,15 @@ export class Guest {
   @JoinColumn({name: 'event_uuid'})
   event!: Event
 
+  @Column({name: 'event_uuid', type: 'varchar'})
+  eventUuid!: string
+
   @ManyToOne(() => User)
   @JoinColumn({name: 'promoter_uuid'})
   promoter!: User
 
-  @Column({name: 'event_uuid'})
-  eventUuid!: Event
-
-  @Column({name: 'promoter_uuid'})
-  promoterUuid!: User
+  @Column({name: 'promoter_uuid', type: 'varchar'})
+  promoterUuid!: string
 
   @Column('varchar')
   fristName!: string

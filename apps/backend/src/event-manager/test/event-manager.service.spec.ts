@@ -5,10 +5,13 @@ import {User, UserRole} from '../../users/entities/user.entity'
 import {ADMIN_UUID_STUBS, userStub} from '../../users/test/subs/user.stub'
 import {UserService} from '../../users/users.service'
 import {Event} from '../entities/event.entity'
+import {Guest} from '../entities/guest.entity'
 import {EventManagerService} from '../event-manager.service'
 import {eventStub} from './stubs/event.stub'
 
 const EVENT_REPOSITORY_TOKEN = getRepositoryToken(Event)
+const GUEST_REPOSITORY_TOKEN = getRepositoryToken(Guest)
+
 const repositoryObject = {
   create: jest.fn((stub) => stub),
   save: jest.fn((stub) => stub),
@@ -25,6 +28,7 @@ const userServiceMock = {
 describe('EventManagerService', () => {
   let service: EventManagerService
   let eventRepository: Repository<Event>
+  let guestRepository: Repository<Guest>
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -35,6 +39,10 @@ describe('EventManagerService', () => {
           provide: EVENT_REPOSITORY_TOKEN,
           useValue: repositoryObject,
         },
+        {
+          provide: GUEST_REPOSITORY_TOKEN,
+          useValue: repositoryObject,
+        },
       ],
     })
       .overrideProvider(UserService)
@@ -43,6 +51,7 @@ describe('EventManagerService', () => {
 
     service = module.get<EventManagerService>(EventManagerService)
     eventRepository = module.get<Repository<Event>>(EVENT_REPOSITORY_TOKEN)
+    guestRepository = module.get<Repository<Guest>>(GUEST_REPOSITORY_TOKEN)
   })
 
   it('should be defined', () => {
@@ -51,6 +60,7 @@ describe('EventManagerService', () => {
 
   it('repository should be defined', () => {
     expect(eventRepository).toBeDefined()
+    expect(guestRepository).toBeDefined()
   })
 
   describe('#createEvent', () => {
@@ -74,6 +84,22 @@ describe('EventManagerService', () => {
       expect(
         service.createEvent({event: initialStub, userId: ADMIN_UUID_STUBS})
       ).resolves.toStrictEqual(initialStub)
+    })
+  })
+
+  describe('#addGuestToEvent', () => {
+    const event = eventStub()
+    it('should add guest to event for a given producer', () => {
+      service.addGuestToEvent({
+        eventUuid: event.uuid,
+        guest: {
+          firstName: 'Billie',
+          lastName: 'The kid',
+        },
+        promoterUuid: userStub({}).uuid,
+      })
+
+      expect(guestRepository.save).toHaveBeenCalled()
     })
   })
 })
