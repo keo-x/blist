@@ -1,3 +1,6 @@
+import * as path from 'path'
+import {RemixModule} from 'nest-remix'
+import {HelloWorldBackend} from './routes/hello-world.server'
 import {ApolloDriver, ApolloDriverConfig} from '@nestjs/apollo'
 import {Module} from '@nestjs/common'
 import {ConfigModule, ConfigService} from '@nestjs/config'
@@ -16,7 +19,9 @@ import databaseConfig from './config/database.config'
 import {DataSourceOptions} from 'typeorm'
 import {join} from 'path'
 
-@Module({
+@RemixModule({
+  publicDir: path.join(process.cwd(), 'public'),
+  browserBuildDir: path.join(process.cwd(), 'build/'),
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
@@ -34,7 +39,7 @@ import {join} from 'path'
 
         return {
           ...typeormConfig,
-          entities: [join(__dirname, '../**/**.entity.{js,ts}')],
+          entities: [__dirname + '/**/entity/*.entity{.ts,.js}'],
           autoLoadEntities: true,
         }
       },
@@ -47,11 +52,6 @@ import {join} from 'path'
     EventManagerModule,
   ],
 
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: JwTAuthGuard,
-    },
-  ],
+  providers: [HelloWorldBackend],
 })
 export class AppModule {}
