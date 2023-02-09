@@ -35,7 +35,7 @@ export class MagicLinkStrategy extends PassportStrategy(
           text: `Hey! Click on this link to finish logging in: ${link}\nMake sure the verification code matches ${verificationCode}!`,
         })
       },
-      // @ts-expect-error unable to type the verify method correctly
+      
       verify: async (payload, done) => {
         const user = await userService.findByEmail(payload.destination)
         if (isNil(user)) {

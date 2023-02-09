@@ -27,5 +27,5 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
   },
-  "exclude": ["webpack.config.js", "node_modules", "tmp"]
+  "exclude": ["webpack.config.js", "node_modules", "tmp", "dist"]
 }
