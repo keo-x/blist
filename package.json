@@ -21,9 +21,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "pnpm typeorm-ts-node-commonjs",
-    "migration:generate": "pnpm run typeorm -d apps/backend/src/config/migration.config.ts migration:generate apps/backend/src/database/migrations/$npm_config_name",
-    "migration:create": "pnpm run typeorm migration:create apps/backend/src/database/migrations/$npm_config_name",
-    "migration:migrate": "pnpm run typeorm -d apps/backend/src/config/migration.config.ts migration:run"
+    "migration:generate": "pnpm run typeorm -d src/config/migration.config.ts migration:generate src/database/migrations/$npm_config_name",
+    "migration:create": "pnpm run typeorm migration:create src/database/migrations/$npm_config_name",
+    "migration:run": "pnpm run typeorm -d src/config/migration.config.ts migration:run"
   },
   "dependencies": {
     "@apollo/server": "^4.3.2",

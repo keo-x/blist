@@ -3,6 +3,7 @@ import {getNodeEnv, NodeEnv} from '../constants/NodeEnv'
 
 import {registerAs} from '@nestjs/config'
 import {DataSourceOptions} from 'typeorm'
+import {join} from 'path'
 
 export const getDatabaseConfig = (): DataSourceOptions => {
   const env = getNodeEnv()
@@ -21,8 +22,7 @@ export const getDatabaseConfig = (): DataSourceOptions => {
     synchronize: env !== NodeEnv.PRODUCTION,
     migrationsRun: false,
     namingStrategy: new SnakeNamingStrategy(),
-    entities: ['../**/*.entity.{js,ts}'],
-    migrations: ['../database/migrations/*{.ts,.js}'],
+    entities: [join(process.cwd(), 'src/**/*.entity.{js,ts}')],
     extra: {
       charset: 'utf8mb4_unicode_ci',
     },

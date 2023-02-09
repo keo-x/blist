@@ -30,8 +30,7 @@ export class User {
   fristName?: string
 
   @Column({
-    type: 'enum',
-    enum: UserRole,
+    type: 'varchar',
     default: UserRole.PROMOTER,
   })
   role!: UserRole
