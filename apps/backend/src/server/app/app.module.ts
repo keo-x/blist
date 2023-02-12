@@ -15,6 +15,7 @@ import {EventManagerModule} from './event-manager/event-manager.module'
 import databaseConfig from './config/database.config'
 import {DataSourceOptions} from 'typeorm'
 import {join} from 'path'
+import {ViewModule} from '../view/view.module'
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import {join} from 'path'
     UsersModule,
     AuthModule,
     EventManagerModule,
+    ViewModule,
   ],
 
   providers: [
