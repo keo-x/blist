@@ -1,13 +1,12 @@
-import {Injectable, OnModuleInit} from '@nestjs/common'
+import {Injectable, Logger, OnModuleInit} from '@nestjs/common'
 import {ConfigService} from '@nestjs/config'
-import {dir} from 'console'
 import next from 'next'
 import {NextServer} from 'next/dist/server/next'
-import {join} from 'path'
 
 @Injectable()
 export class ViewService implements OnModuleInit {
   private server!: NextServer
+  private readonly logger = new Logger('Viewservice')
 
   constructor(private configService: ConfigService) {}
 
@@ -19,7 +18,7 @@ export class ViewService implements OnModuleInit {
       })
       await this.server.prepare()
     } catch (error) {
-      console.log(error)
+      this.logger.error(error)
     }
   }
 

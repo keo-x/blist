@@ -1,7 +1,7 @@
 import {AtSymbolIcon} from '@heroicons/react/24/outline'
-import {Button} from '../components/Button'
-import {useForm, SubmitHandler} from 'react-hook-form'
-import {sendUserLink} from '../service/auth'
+import {Button} from '../../components/Button'
+import {useForm} from 'react-hook-form'
+import {sendUserLink} from '../../service/auth'
 
 type LoginInput = {
   destination: string

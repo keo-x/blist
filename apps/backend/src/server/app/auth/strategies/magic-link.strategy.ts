@@ -20,7 +20,7 @@ export class MagicLinkStrategy extends PassportStrategy(
   ) {
     super({
       secret: config.get('MAGIC_LINK_SECRET'),
-      callbackUrl: '/auth/magic-link/confirm',
+      callbackUrl: '/login/confirm',
       sendMagicLink: async (
         email: string,
         href: string,
@@ -38,6 +38,7 @@ export class MagicLinkStrategy extends PassportStrategy(
       // @ts-expect-error unable to type the verify method correctly
       verify: async (payload, done) => {
         const user = await userService.findByEmail(payload.destination)
+        // todo emit event
         if (isNil(user)) {
           done(new UnauthorizedException())
         }

@@ -17,17 +17,15 @@ export class ViewController {
   }
 
   @Public()
-  @Get('_next*')
-  public async assets(@Req() req: Request, @Res() res: Response) {
-    const parsedUrl = parse(req.url, true)
-    await this.viewService
-      .getNextServer()
-      .render(req, res, parsedUrl.pathname!, parsedUrl.query)
+  @Get('login/confirm')
+  confirmLogin(@Req() req: Request, @Res() res: Response) {
+    const handle = this.viewService.getNextServer().getRequestHandler()
+    handle(req, res)
   }
 
   @Public()
-  @Get('api/auth/*')
-  public async auth(@Req() req: Request, @Res() res: Response) {
+  @Get('_next*')
+  public async assets(@Req() req: Request, @Res() res: Response) {
     const parsedUrl = parse(req.url, true)
     await this.viewService
       .getNextServer()
