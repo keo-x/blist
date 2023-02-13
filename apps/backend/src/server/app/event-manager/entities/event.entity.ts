@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
-import {User} from '../../users/entities/user.entity'
+import {UserEntity} from '../../users/entities/user.entity'
 import {Guest} from './guest.entity'
 
 @Entity({name: 'events'})
@@ -22,9 +22,9 @@ export class Event {
   @Column('timestamptz')
   date!: Date
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => UserEntity)
   @JoinColumn({name: 'created_by_uuid'})
-  createdBy!: User
+  createdBy!: UserEntity
 
   @Column({name: 'created_by_uuid', type: 'varchar'})
   createdByUuid!: string

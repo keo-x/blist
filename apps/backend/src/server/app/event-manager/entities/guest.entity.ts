@@ -8,7 +8,7 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm'
-import {User} from '../../users/entities/user.entity'
+import {UserEntity} from '../../users/entities/user.entity'
 import {Event} from './event.entity'
 
 @Entity('guests')
@@ -24,9 +24,9 @@ export class Guest {
   @Column({name: 'event_uuid', type: 'varchar'})
   eventUuid!: string
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => UserEntity)
   @JoinColumn({name: 'promoter_uuid'})
-  promoter!: User
+  promoter!: UserEntity
 
   @Column({name: 'promoter_uuid', type: 'varchar'})
   promoterUuid!: string
@@ -37,9 +37,9 @@ export class Guest {
   @Column('varchar')
   lastName!: string
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => UserEntity)
   @JoinColumn({name: 'created_by_uuid'})
-  createdBy!: User
+  createdBy!: UserEntity
 
   @Column({name: 'created_by_uuid', type: 'varchar'})
   createdByUuid!: string

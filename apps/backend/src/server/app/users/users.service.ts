@@ -3,31 +3,32 @@ import {InjectRepository} from '@nestjs/typeorm'
 import {isNil} from 'rambda'
 import {Repository} from 'typeorm'
 import {UpdateUserInput} from './dto/update-user.input'
-import {User} from './entities/user.entity'
+import {UserEntity} from './entities/user.entity'
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly usersRepository: Repository<User>
+    @InjectRepository(UserEntity)
+    private readonly usersRepository: Repository<UserEntity>
   ) {}
 
-  async findAll(): Promise<User[] | null> {
+  async findAll(): Promise<UserEntity[] | null> {
     return await this.usersRepository.find()
   }
 
-  async findById({uuid}: {uuid: string}): Promise<User | null> {
+  async findById({uuid}: {uuid: string}): Promise<UserEntity | null> {
     return await this.usersRepository.findOneBy({
       uuid,
     })
   }
 
-  async findByIdOrFail({uuid}: {uuid: string}): Promise<User> {
+  async findByIdOrFail({uuid}: {uuid: string}): Promise<UserEntity> {
     return await this.usersRepository.findOneByOrFail({
       uuid,
     })
   }
 
-  async findByEmail({email}: {email: string}): Promise<User | null> {
+  async findByEmail({email}: {email: string}): Promise<UserEntity | null> {
     return await this.usersRepository.findOneBy({
       email,
     })

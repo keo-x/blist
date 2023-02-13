@@ -1,8 +1,8 @@
-import {User, UserRole} from '../../entities/user.entity'
+import {UserEntity, UserRole} from '../../entities/user.entity'
 
 export const ADMIN_UUID_STUBS = '325152'
 
-export const userStub = ({uuid = '123'}: {uuid?: string}): User => {
+export const userStub = ({uuid = '123'}: {uuid?: string}): UserEntity => {
   return {
     uuid,
     email: 'test@example.com',

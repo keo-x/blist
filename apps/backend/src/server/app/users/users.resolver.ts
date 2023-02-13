@@ -1,7 +1,7 @@
 import {Args, Query, Resolver, ResolveField, Root} from '@nestjs/graphql'
 import {UserService} from './users.service'
 import {AuthUser} from './entities/user.object'
-import {User} from './entities/user.entity'
+import {UserEntity} from './entities/user.entity'
 import {isNil} from 'rambda'
 
 @Resolver(() => AuthUser)
@@ -19,7 +19,7 @@ export class UsersResolver {
   }
 
   @ResolveField(() => Boolean)
-  isOnboarded(@Root() user: User): boolean {
+  isOnboarded(@Root() user: UserEntity): boolean {
     return isNil(user.onboardedAt)
   }
 }

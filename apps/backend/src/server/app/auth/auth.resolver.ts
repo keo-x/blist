@@ -12,7 +12,7 @@ import {isNil} from 'rambda'
 import {CurrentUser, Public} from '../common/decorators/'
 import {JwTAuthGuard, MagicLinkGuard} from '../common/guards'
 import {GraphQLContext} from '../types'
-import {User} from '../users/entities/user.entity'
+import {UserEntity} from '../users/entities/user.entity'
 import {AuthUser} from '../users/entities/user.object'
 import {UserService} from '../users/users.service'
 import {AuthService} from './auth.service'
@@ -42,7 +42,7 @@ export class AuthResolver {
     }
 
     const {accessToken, refreshToken} = this.authService.login(
-      ctx.req.user as User
+      ctx.req.user as UserEntity
     )
 
     // TODO extract and add the necessarry security setting

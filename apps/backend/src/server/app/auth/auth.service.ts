@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common'
 import {ConfigService} from '@nestjs/config'
 import {JwtService} from '@nestjs/jwt'
-import {User} from '../users/entities/user.entity'
+import {UserEntity} from '../users/entities/user.entity'
 
 export type LoginReturnType = {
   accessToken: string
@@ -15,7 +15,7 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  private generateAccessToken(user: User): string {
+  private generateAccessToken(user: UserEntity): string {
     return this.jwtService.sign(
       {sub: user.uuid},
       {
@@ -25,7 +25,7 @@ export class AuthService {
     )
   }
 
-  private generateRefreshToken(user: User): string {
+  private generateRefreshToken(user: UserEntity): string {
     return this.jwtService.sign(
       {sub: user.uuid},
       {
@@ -35,7 +35,7 @@ export class AuthService {
     )
   }
 
-  login(user: User): LoginReturnType {
+  login(user: UserEntity): LoginReturnType {
     return {
       accessToken: this.generateAccessToken(user),
       refreshToken: this.generateRefreshToken(user),

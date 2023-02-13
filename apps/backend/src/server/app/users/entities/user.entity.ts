@@ -16,7 +16,7 @@ export enum UserRole {
 export const EVENT_ORGANIZER_ROLES = [UserRole.ADMIN, UserRole.ORGANIZER]
 
 @Entity({name: 'users'})
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   uuid!: string
 
