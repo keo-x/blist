@@ -31,4 +31,11 @@ export class ViewController {
       .getNextServer()
       .render(req, res, parsedUrl.pathname!, parsedUrl.query)
   }
+
+  @Public()
+  @Get('api/refreshToken')
+  public async refreshToken(@Req() req: Request, @Res() res: Response) {
+    const handle = this.viewService.getNextServer().getRequestHandler()
+    handle(req, res)
+  }
 }

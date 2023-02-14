@@ -1,17 +1,10 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {createApiInstance} from '../../service/api'
+import {refreshTokens} from '../../service/auth'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {headers} = req
-  const api = createApiInstance()
   try {
-    const {data, headers: returnedHeaders} = await api.post(
-      '/auth/refresh-token', // refresh token Node.js server path
-      undefined,
-      {
-        headers,
-      }
-    )
+    const {data, headers: returnedHeaders} = await refreshTokens(headers)
 
     //  Update headers on requester using headers from Node.js server response
     Object.keys(returnedHeaders).forEach((key) =>

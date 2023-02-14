@@ -1,10 +1,8 @@
-import axios from 'axios'
-import {createApiInstance} from './api'
-
-const api = createApiInstance()
+import {IncomingHttpHeaders} from 'http'
+import api from './api'
 
 export const sendUserLink = async ({destination}: {destination: string}) => {
-  const response = await axios.post('/auth/send-link', {
+  const response = await api.post('/auth/send-link', {
     destination,
   })
 
@@ -12,11 +10,15 @@ export const sendUserLink = async ({destination}: {destination: string}) => {
 }
 
 export const verifyAuthToken = async ({token}: {token?: string}) => {
-  return await api.request({
-    url: 'http://localhost:3333/auth/verify',
-    method: 'post',
+  return await api.post('/auth/verify', undefined, {
     params: {
       token,
     },
+  })
+}
+
+export const refreshTokens = async (headers: IncomingHttpHeaders) => {
+  return api.post('/auth/refresh-token', undefined, {
+    headers,
   })
 }
