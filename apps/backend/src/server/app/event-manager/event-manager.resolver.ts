@@ -18,7 +18,6 @@ export class EventManagerResolver {
     event: CreateEventInput,
     @CurrentUser() currentUser: AuthUser
   ) {
-    console.log(event, currentUser)
     return this.eventManagerService.createEvent({
       event,
       userId: currentUser.uuid,

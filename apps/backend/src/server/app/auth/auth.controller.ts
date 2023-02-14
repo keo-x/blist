@@ -51,8 +51,6 @@ export class AuthController {
       req.user as UserEntity
     )
 
-    console.log('Hello', req.user)
-
     // TODO extract and add the necessarry security setting
     res.cookie('racc', refreshToken, {
       httpOnly: true,

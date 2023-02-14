@@ -11,22 +11,15 @@ export const getServerSideProps: GetServerSideProps<
   LoginConfirmationPageProps
 > = async ({query, res}: GetServerSidePropsContext) => {
   try {
-    console.log('HELLO')
-
     const {data, headers, request} = await verifyAuthToken({
       token: query.token as string,
     })
-
-    console.log(headers)
 
     //  Update headers on requester using headers from Node.js server response
     Object.entries(headers).forEach((keyArr) =>
       res.setHeader(keyArr[0], keyArr[1] as string)
     )
     // Send data from Node.js server response
-
-    console.log(res.getHeader)
-
     return {
       props: {
         isAuthanticated: true,
