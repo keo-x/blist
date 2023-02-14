@@ -9,7 +9,7 @@ import * as setCookie from 'set-cookie-parser'
 const axiosInstance = axios.create({
   baseURL: process.env.DASHBOARD_URL,
   headers: {
-    'Content-Type': 'applcation/json',
+    'Content-Type': 'application/json',
   },
   withCredentials: true,
 })

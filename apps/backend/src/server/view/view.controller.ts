@@ -10,8 +10,15 @@ export class ViewController {
   constructor(private viewService: ViewService) {}
 
   @Public()
+  @Get()
+  index(@Req() req: Request, @Res() res: Response) {
+    const handle = this.viewService.getNextServer().getRequestHandler()
+    handle(req, res)
+  }
+
+  @Public()
   @Get('login')
-  static(@Req() req: Request, @Res() res: Response) {
+  login(@Req() req: Request, @Res() res: Response) {
     const handle = this.viewService.getNextServer().getRequestHandler()
     handle(req, res)
   }

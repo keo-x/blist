@@ -1,28 +1,34 @@
 import {GetServerSideProps, GetServerSidePropsContext, NextPage} from 'next'
-import {verifyAuthToken} from '../../service/auth'
+import {dehydrate, QueryClient, DehydratedState} from 'react-query'
+import {saveAccessToken, verifyAuthToken} from '../../service/auth'
 
 type LoginConfirmationPageProps = {
   isAuthanticated: boolean
-  accessToken?: string
+  DehydratedState?: DehydratedState
 }
 
 export const getServerSideProps: GetServerSideProps<
   LoginConfirmationPageProps
 > = async ({query, res}: GetServerSidePropsContext) => {
   try {
+    const queryClient = new QueryClient()
     const {data, headers} = await verifyAuthToken({
       token: query.token as string,
     })
 
-    //  Update headers on requester using headers from Node.js server response
+    await queryClient.prefetchQuery(
+      ['accessToken', data.accessToken],
+      saveAccessToken
+    )
+
     Object.entries(headers).forEach((keyArr) =>
       res.setHeader(keyArr[0], keyArr[1] as string)
     )
     // Send data from Node.js server response
     return {
-      props: {
-        isAuthanticated: true,
-        accessToken: data.accessToken,
+      redirect: {
+        permanent: false,
+        destination: '/',
       },
     }
   } catch (err) {
