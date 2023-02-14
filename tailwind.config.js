@@ -6,6 +6,7 @@ module.exports = {
   mode: 'jit',
   purge: [
     join(__dirname, 'apps/backend/src/client/pages/**/*.{js,ts,jsx,tsx}'),
+    join(__dirname, 'apps/backend/src/client/components/**/*.{js,ts,jsx,tsx}'),
     ...createGlobPatternsForDependencies(__dirname),
   ],
   darkMode: 'media',

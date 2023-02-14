@@ -11,23 +11,21 @@ const LoginPage = () => {
   const {register, handleSubmit} = useForm<LoginInput>()
 
   return (
-    <main className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-lg">
-        <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
-          Get started today
-        </h1>
+    <section className="relative flex flex-wrap lg:h-screen lg:items-center">
+      <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-lg text-center">
+          <h1 className="text-2xl font-bold sm:text-3xl">Get started today!</h1>
 
-        <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati
-          sunt dolores deleniti inventore quaerat mollitia?
-        </p>
+          <p className="mt-4 text-gray-500">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero
+            nulla eaque error neque ipsa culpa autem, at itaque nostrum!
+          </p>
+        </div>
 
         <form
           onSubmit={handleSubmit(sendUserLink)}
-          className="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl"
+          className="mx-auto mt-8 mb-0 max-w-md space-y-4"
         >
-          <p className="text-lg font-medium">Sign in to your account</p>
-
           <div>
             <label htmlFor="destination" className="text-sm font-medium">
               Email
@@ -36,7 +34,8 @@ const LoginPage = () => {
             <div className="relative mt-1">
               <input
                 type="email"
-                className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                className="w-full rounded-lg border-gray-200 border p-4 pr-12 text-sm shadow-sm"
+                placeholder="votre adresse e-mail"
                 {...register('destination', {required: true})}
               />
 
@@ -46,12 +45,22 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <Button type="submit" variant="primary">
-            Sign in
-          </Button>
+          <div className="flex flex-col">
+            <Button type="submit" variant="primary">
+              Connectez-vous
+            </Button>
+          </div>
         </form>
       </div>
-    </main>
+
+      <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
+        <img
+          alt="Welcome"
+          src="http://localhost:3333/public/night-club.jpg"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
+    </section>
   )
 }
 
