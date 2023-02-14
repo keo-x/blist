@@ -1,4 +1,3 @@
-import {responseEncoding} from 'axios'
 import {GetServerSideProps, GetServerSidePropsContext, NextPage} from 'next'
 import {verifyAuthToken} from '../../service/auth'
 
@@ -11,7 +10,7 @@ export const getServerSideProps: GetServerSideProps<
   LoginConfirmationPageProps
 > = async ({query, res}: GetServerSidePropsContext) => {
   try {
-    const {data, headers, request} = await verifyAuthToken({
+    const {data, headers} = await verifyAuthToken({
       token: query.token as string,
     })
 
