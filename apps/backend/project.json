@@ -11,10 +11,11 @@
         "target": "node",
         "compiler": "tsc",
         "outputPath": "dist/apps/backend",
-        "main": "apps/backend/src/main.ts",
+        "main": "apps/backend/src/server/main.ts",
         "tsConfig": "apps/backend/tsconfig.app.json",
-        "assets": ["apps/backend/src/assets"],
-        "webpackConfig": "apps/backend/webpack.config.js"
+        "assets": ["apps/backend/src/server/assets"],
+        "webpackConfig": "apps/backend/webpack.config.js",
+        "postcssConfig": "postcss.config.js"
       },
       "configurations": {
         "production": {
